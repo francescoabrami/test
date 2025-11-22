@@ -14,40 +14,46 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # Run the entire job inside a full TeX Live container
-    container:
-      image: ghcr.io/xu-cheng/texlive-full:latest
-
     steps:
-      - name: Checkout repo
+      # 1. Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Compile LaTeX
-        run: latexmk -pdf main.tex
+      # 2. Run LaTeX using prebuilt Docker (fast + no installation)
+      - name: Compile PDF using Docker
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/workdir \
+            texlive/texlive:latest \
+            sh -c "cd /workdir && latexmk -pdf -interaction=nonstopmode main.tex"
 
-      - name: Rename output PDF
-        run: mv main.pdf test.pdf
+      # 3. Rename output PDF
+      - name: Rename PDF
+        run: |
+          if [ -f "main.pdf" ]; then
+            mv main.pdf test.pdf
+          else
+            echo "main.pdf not found!"
+            exit 1
+          fi
 
-      - name: Upload PDF artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: pdf
-          path: test.pdf
-
+      # 4. Extract version from \def\version{1.2.3}
       - name: Extract version
         id: get_version
         run: |
-          VERSION=$(grep -oP '\\def\\version\{\K[^\}]+(?=\})' main.tex || true)
-          if [ -z "$VERSION" ]; then
-            VERSION=$(grep -oP '(?<=Version:\s*)[0-9]+\.[0-9]+(\.[0-9]+)?' main.tex || true)
-          fi
+          VERSION=$(grep -oP '\\def\\version\{\K[^\}]+' main.tex || true)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      # 5. Commit and push
       - name: Commit PDF to repo
+        env:
+          VERSION: ${{ steps.get_version.outputs.version }}
         run: |
-          VERSION="${{ steps.get_version.outputs.version }}"
           git config user.name "francescoabrami"
           git config user.email "francesco.abrami03@gmail.com"
+
           git add test.pdf
-          git commit -m "AUTO: updated PDF (version: $VERSION)" || echo "No changes"
+
+          # Avoid failing if no changes
+          git commit -m "AUTO: updated PDF (version: $VERSION)" || exit 0
           git push
