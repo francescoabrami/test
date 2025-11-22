@@ -1,0 +1,36 @@
+name: Build LaTeX document
+
+on:
+  push:
+    paths:
+      - "**.tex"
+      - "**.sty"
+      - "**.bib"
+      - ".github/workflows/latex.yml"
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install TeX Live
+        uses: teatimeguest/setup-texlive-action@v2
+        with:
+          packages: >
+            scheme-full
+
+      - name: Compile LaTeX (pdflatex)
+        run: |
+          pdflatex -interaction=nonstopmode main.tex
+          bibtex main || true
+          pdflatex -interaction=nonstopmode main.tex
+          pdflatex -interaction=nonstopmode main.tex
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf
+          path: main.pdf
