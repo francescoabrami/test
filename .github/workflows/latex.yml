@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pdf
-          path: main.pdf
+          path: test.pdf
 
       - name: Extract version
         id: get_version
@@ -64,6 +64,6 @@ jobs:
           VERSION="${{ steps.get_version.outputs.version }}"
           git config user.name "francescoabrami"
           git config user.email "francesco.abrami03@gmail.com.com"
-          git add main.pdf
+          git add test.pdf
           git commit -m "AUTO: updated PDF (version: $VERSION)" || echo "No changes to commit"
           git push
