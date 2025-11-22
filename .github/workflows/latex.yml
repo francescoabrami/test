@@ -13,7 +13,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -28,10 +27,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-texlive-     
 
-      - name: Install TeX Live (minimal)
+
+      - name: Install minimal TeX Live + required packages
         run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended biber latexmk
+         sudo apt-get update
+         sudo apt-get install -y \
+          texlive-latex-base \
+          texlive-latex-recommended \
+          texlive-latex-extra \
+          texlive-fonts-recommended \
+          texlive-science \
+          biber \
+          latexmk    
 
       - name: Compile LaTeX
         run: |
