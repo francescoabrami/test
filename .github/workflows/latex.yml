@@ -44,6 +44,9 @@ jobs:
         run: |
           latexmk -pdf main.tex
 
+      - name: Rename output PDF
+        run: mv main.pdf test.pdf    
+
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
