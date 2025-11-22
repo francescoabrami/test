@@ -13,39 +13,20 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    # Run the entire job inside a full TeX Live container
+    container:
+      image: ghcr.io/xu-cheng/texlive-full:latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-        # Cache TeX Live packages
-      - name: Cache TeX Live
-        uses: actions/cache@v3
-        with:
-          path: |
-            /usr/local/texlive
-          key: ${{ runner.os }}-texlive-2025
-          restore-keys: |
-            ${{ runner.os }}-texlive-     
-
-
-      - name: Install minimal TeX Live + required packages
-        run: |
-         sudo apt-get update
-         sudo apt-get install -y \
-          texlive-latex-base \
-          texlive-latex-recommended \
-          texlive-latex-extra \
-          texlive-fonts-recommended \
-          texlive-science \
-          biber \
-          latexmk    
-
       - name: Compile LaTeX
-        run: |
-          latexmk -pdf main.tex
+        run: latexmk -pdf main.tex
 
       - name: Rename output PDF
-        run: mv main.pdf test.pdf    
+        run: mv main.pdf test.pdf
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
@@ -66,7 +47,7 @@ jobs:
         run: |
           VERSION="${{ steps.get_version.outputs.version }}"
           git config user.name "francescoabrami"
-          git config user.email "francesco.abrami03@gmail.com.com"
+          git config user.email "francesco.abrami03@gmail.com"
           git add test.pdf
-          git commit -m "AUTO: updated PDF (version: $VERSION)" || echo "No changes to commit"
+          git commit -m "AUTO: updated PDF (version: $VERSION)" || echo "No changes"
           git push
