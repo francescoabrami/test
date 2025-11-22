@@ -30,6 +30,8 @@ jobs:
       - name: Commit PDF to repo
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "AUTO: update PDF"
+          commit_message: "AUTOAMTIC: update PDF"
           file_pattern: main.pdf
+
+
 
