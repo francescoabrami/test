@@ -6,20 +6,26 @@ on:
       - "**.tex"
       - "**.bib"
       - "**.sty"
-      - ".github/workflows/latex.yml"
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-full
+
       - name: Compile LaTeX
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: main.tex
+        run: |
+          latexmk -pdf main.tex
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
@@ -27,11 +33,20 @@ jobs:
           name: pdf
           path: main.pdf
 
+      - name: Extract version
+        id: get_version
+        run: |
+          VERSION=$(grep -oP '\\def\\version\{\K[^\}]+(?=\})' main.tex || true)
+          if [ -z "$VERSION" ]; then
+            VERSION=$(grep -oP '(?<=Version:\s*)[0-9]+\.[0-9]+(\.[0-9]+)?' main.tex || true)
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Commit PDF to repo
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "AUTOAMTIC: update PDF"
-          file_pattern: main.pdf
-
-
-
+        run: |
+          VERSION="${{ steps.get_version.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add main.pdf
+          git commit -m "AUTO: updated PDF (version: $VERSION)" || echo "No changes to commit"
+          git push
