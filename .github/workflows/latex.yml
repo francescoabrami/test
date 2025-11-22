@@ -52,9 +52,9 @@ jobs:
         run: |
           git config user.name "Francesco Abrami"
           git config user.email "francescoabrami03@gmail.com"
-          git config commit.gpgSign false
+          git config commit.gpgSign true
           git add -f main.pdf
-          git commit -m "AUTO: updated PDF (version: $VERSION)" || echo "No changes to commit"
+          git commit -S -m "AUTO: updated PDF (version: $VERSION)" || echo "No changes to commit"
           git push
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
