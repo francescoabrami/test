@@ -33,12 +33,6 @@ jobs:
           name: pdf
           path: main.pdf
 
-      - name: Cache TeX Live packages
-        uses: actions/cache@v3
-        with:
-          path: /usr/local/texlive
-          key: ${{ runner.os }}-texlive    
-
       - name: Extract version
         id: get_version
         run: |
@@ -48,14 +42,11 @@ jobs:
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Commit PDF with GPG
+      - name: Commit PDF to repo
         run: |
-          git config user.name "Francesco Abrami"
-          git config user.email "francescoabrami03@gmail.com"
-          git config commit.gpgSign true
-          git add -f main.pdf
-          git commit -S -m "AUTO: updated PDF (version: $VERSION)" || echo "No changes to commit"
+          VERSION="${{ steps.get_version.outputs.version }}"
+          git config user.name "francescoabrami"
+          git config user.email "francesco.abrami03@gmail.com.com"
+          git add main.pdf
+          git commit -m "AUTO: updated PDF (version: $VERSION)" || echo "No changes to commit"
           git push
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
