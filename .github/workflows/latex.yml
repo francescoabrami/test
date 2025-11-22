@@ -4,30 +4,22 @@ on:
   push:
     paths:
       - "**.tex"
-      - "**.sty"
       - "**.bib"
+      - "**.sty"
       - ".github/workflows/latex.yml"
 
 jobs:
-  build_latex:
+  build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install TeX Live
-        uses: teatimeguest/setup-texlive-action@v2
+      - name: Compile LaTeX
+        uses: xu-cheng/latex-action@v3
         with:
-          packages: >
-            scheme-full
-
-      - name: Compile LaTeX (pdflatex)
-        run: |
-          pdflatex -interaction=nonstopmode main.tex
-          bibtex main || true
-          pdflatex -interaction=nonstopmode main.tex
-          pdflatex -interaction=nonstopmode main.tex
+          root_file: main.tex
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
