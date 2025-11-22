@@ -25,4 +25,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pdf
-          path: main.pdf
+          path: test.pdf
+
+        - name: Commit PDF to repo
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "AUTO: update PDF"
+          file_pattern: test.pdf
+
