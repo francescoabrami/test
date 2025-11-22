@@ -33,6 +33,12 @@ jobs:
           name: pdf
           path: main.pdf
 
+      - name: Cache TeX Live packages
+        uses: actions/cache@v3
+        with:
+          path: /usr/local/texlive
+          key: ${{ runner.os }}-texlive    
+
       - name: Extract version
         id: get_version
         run: |
