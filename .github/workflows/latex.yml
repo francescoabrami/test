@@ -25,7 +25,7 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}:/workdir \
             texlive/texlive:latest \
-            sh -c "cd /workdir && latexmk -pdf -interaction=nonstopmode main.tex"
+            sh -c "cd /workdir && latexmk -pdf -interaction=nonstopmode -f main.tex"
 
       # 3. Rename output PDF
       - name: Rename PDF
