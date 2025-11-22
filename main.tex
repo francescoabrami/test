@@ -1,11 +1,9 @@
 \documentclass[11pt]{article}
 
-%% PACKAGES SECTION %%
+%% THIS SECTION IS FOR PACKAGES %%
 
-\usepackage[english]{babel}
-\usepackage{subfiles}
-\usepackage{graphics}
 \usepackage{makeidx}
+\usepackage[italian]{babel}
 \usepackage{floatflt}
 \usepackage{titlesec}
 \usepackage{listings}
@@ -13,8 +11,10 @@
 \usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{hyperref}
+\usepackage{graphics}
 \usepackage{wrapfig}
 \usepackage[utf8]{inputenc}
+\usepackage{subfiles}
 \usepackage[version=3]{mhchem}
 \usepackage{tikz}
 \usepackage{pgfplots}
@@ -22,6 +22,54 @@
 \usepackage{textcomp} 
 \usepackage{enumitem}
 \usepackage{blindtext}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\usepackage[thinc]{esdiff}
+\usepackage[T1]{fontenc}
+
+%% SECTION FOR CUSTOM CODE STYLES DISPLAY %%
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{1,1,1} % BACKCOLOUR WHITE
+
+\lstdefinestyle{matstyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true, % NEW LINE
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=matstyle} % STYLE FRO MATLAB CODE
+
+%% THEOREM STYLE SECTION %%
+
+\newtheorem*{theorem*}{Teorema}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{corollary}{Corollario}
+\newtheorem*{prop*}{Proprietà}
+
+%% SECTION FOR CUSTOM COMMAND %%
+
+\newcommand{\unit}[1]{\ensuremath{\, \mathrm{#1}}}
+
+%% SECTION FOR CUSTOM PATHS %%
+
+\graphicspath{ {./images/} }
 
 %% LAYOUT SECTION %%
 
@@ -31,21 +79,11 @@
 \oddsidemargin 0.5 cm
 \linespread{1.1}
 
-\def\version{1.3.3}
-
-%% SECTION FOR CUSTOM PATHS %%
-
-\graphicspath{{./images/}}
-
-%% SECTION FOR CUSTOM COMMAND %%
-
-\newcommand{\unit}[1]{\ensuremath{\, \mathrm{#1}}}
-
 %% TITLE INFORMATION AND VERSIONING %%
 
-\title{\textbf{Title \\ Course Code \\ Prof. Name Surname}}
-\author{Author} 
-\date{Date \\ \vspace{10pt} \small{Version:} \version }
+\title{\textbf{Teoria ed Elaborazione dei Segnali \\  02MOOOA \\ Prof.ssa Gabriella Bosco \\ Prof. Fabio Dovis}}
+\author{Francesco Abrami - s310570}
+\date{A.A. 2025 - 2026 \\ \vspace{10pt} \small {Versione: 1.14.0 - 20/11/2025}}
 
 %% DISPLAY TITLE %%
 
@@ -66,14 +104,42 @@
 \newpage
 \tableofcontents
 
-%% WRITING AND SUBFILE SECTION %%
+%% WRITING AND SUBFILE CALL SECTION %%
 
-This is a test, new test
-This is a test, new test
-
-\subfile{sections/subfile.tex}
+%\subfile{sections/000-Generale.tex} % DONE
+%\subfile{sections/001-Domande.tex} % FUTURE USE
+%\subfile{sections/002-Concetti.tex}
 %
-%\subfile{sections/01-Section.tex}
-%\subfile{sections/02-Section.tex}
-	
+%\subfile{sections/LEZIONI-TS/01-ALG.tex}
+%\subfile{sections/LEZIONI-TS/02-Segnali.tex}
+%\subfile{sections/LEZIONI-TS/03-Analogici.tex}
+%\subfile{sections/LEZIONI-TS/04-Vettori.tex}
+%\subfile{sections/LEZIONI-TS/05-Fourier.tex}
+%\subfile{sections/LEZIONI-TS/06-Sistemi.tex}
+%\subfile{sections/LEZIONI-TS/07-Blocchi.tex}
+%\subfile{sections/LEZIONI-TS/08-Periodici.tex}
+%\subfile{sections/LEZIONI-TS/09-Correlazione.tex}
+%\subfile{sections/LEZIONI-TS/10-Spettro.tex}
+%\subfile{sections/LEZIONI-TS/11-DAC.tex}
+%
+%\subfile{sections/LEZIONI-EN/12-Numerici.tex} 
+%\subfile{sections/LEZIONI-EN/13-Sequenze.tex} % FUTURE USE
+%\subfile{sections/LEZIONI-EN/14-ConvLin.tex}  % FUTURE USE
+%\subfile{sections/LEZIONI-EN/15-Frequenza.tex} % FUTURE USE
+%
+%\subfile{sections/Esercitazioni-TS/Esercitazione-1.tex}
+%\subfile{sections/Esercitazioni-TS/Esercitazione-2.tex}
+%\subfile{sections/Esercitazioni-TS/Esercitazione-3.tex}
+%\subfile{sections/Esercitazioni-TS/Esercitazione-4.tex}
+%\subfile{sections/Esercitazioni-TS/Esercitazione-5.tex}
+%\subfile{sections/Esercitazioni-TS/Esercitazione-6.tex}
+%\subfile{sections/Esercitazioni-TS/Esercitazione-7.tex}
+%
+\subfile{sections/Esercitazioni-EN/Esercitazione-1.tex}
+\subfile{sections/Esercitazioni-EN/Esercitazione-2.tex} 
+\subfile{sections/Esercitazioni-EN/Esercitazione-3.tex} % FUTURE USE
+%\subfile{sections/Homeworks/HW-1.tex} % FOR FUTURE USE
+%\subfile{sections/Homeworks/HW-2.tex} % FOR FUTURE USE
+
+
 \end{document}
