@@ -1,5 +1,7 @@
 name: Build LaTeX document
 
+# NEW STRUCT
+
 permissions:
   contents: write
 
