@@ -26,6 +26,7 @@
 \usepackage{mathtools}
 \usepackage[thinc]{esdiff}
 \usepackage[T1]{fontenc}
+\usepackage[ddmmyyyy]{datetime}
 
 %% SECTION FOR CUSTOM CODE STYLES DISPLAY %%
 
@@ -67,13 +68,15 @@
 
 \newcommand{\unit}[1]{\ensuremath{\, \mathrm{#1}}}
 
+\def\version{1.13.5}
+
+\renewcommand{\dateseparator}{-}
+
 %% SECTION FOR CUSTOM PATHS %%
 
 \graphicspath{ {./images/} }
 
 %% LAYOUT SECTION %%
-
-\def\version{22.11.3}
 
 \textwidth 15.5 cm
 \textheight 23.0 cm
@@ -83,9 +86,9 @@
 
 %% TITLE INFORMATION AND VERSIONING %%
 
-\title{\textbf{Teoria ed Elaborazione \\  02MOOOA \\ Prof.ssa Gabriella Bosco \\ Prof. Fabio Dovis}}
+\title{\textbf{Teoria ed Elaborazione dei Segnali \\  02MOOOA \\ Prof.ssa Gabriella Bosco \\ Prof. Fabio Dovis}}
 \author{Francesco Abrami - s310570}
-\date{A.A. 2025 - 2026 \\ \vspace{10pt} \small {Versione: \version\;- 25/11/2025}}
+\date{A.A. 2025 - 2026 \\ \vspace{10pt} \small {Versione: \version \;- \today }}
 
 %% DISPLAY TITLE %%
 
