@@ -48,6 +48,12 @@ jobs:
       - name: Commit PDF to repo
         env:
           VERSION: ${{ steps.get_version.outputs.version }}
+          GPG_KEY_PASSPHRASE: ${{ secrets.GPG_KEY_PASSPHRASE }}
+          GIT_COMMITTER_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
+          GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
+          GIT_AUTHOR_NAME: francescoabrami
+          GIT_AUTHOR_EMAIL: francesco.abrami03@gmail.com
+
         run: |
           git config user.name "francescoabrami"
           git config user.email "francesco.abrami03@gmail.com"
@@ -57,14 +63,7 @@ jobs:
           git commit -m "AUTO: updated PDF (version: $VERSION)" || exit 0
           git verify-commit $( git rev-parse HEAD )
           git push   
-
-        env:
-        GPG_KEY_PASSPHRASE: ${{ secrets.GPG_KEY_PASSPHRASE }}
-        GIT_COMMITTER_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
-        GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
-        GIT_AUTHOR_NAME: francescoabrami
-        GIT_AUTHOR_EMAIL: francesco.abrami03@gmail.com
-
+        
 
       # 2. Run LaTeX using prebuilt Docker (fast + no installation)
       # - name: Compile PDF using Docker
