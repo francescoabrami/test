@@ -1,31 +1,30 @@
 name: Build LaTeX document
 
-on:
-  push:
-    paths:
-      - "**.tex"
-      - "**.bib"
-      - "**.sty"
-
 permissions:
   contents: write
 
+on: [push]
 jobs:
-  build:
+
+  build_latex:
+
     runs-on: ubuntu-latest
-
     steps:
+    
       # 1. Checkout repository
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Set up Git repository
+        uses: actions/checkout@v6
 
-      # 2. Run LaTeX using prebuilt Docker (fast + no installation)
-      - name: Compile PDF using Docker
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/workdir \
-            texlive/texlive:latest \
-            sh -c "cd /workdir && latexmk -pdf -interaction=nonstopmode -f main.tex"
+      # 2. Run LaTeX using Docker
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: main.tex
+      - name: Upload PDF file
+        uses: actions/upload-artifact@v5
+        with:
+          name: PDF
+          path: main.pdf
 
       # 3. Rename output PDF
       - name: Rename PDF
@@ -38,7 +37,7 @@ jobs:
           fi
 
       # 4. Extract version from \def\version{1.2.3}
-      - name: Extract version
+      - name: Extract version 
         id: get_version
         run: |
           VERSION=$(grep -oP '\\def\\version\{\K[^\}]+' main.tex || true)
@@ -54,6 +53,17 @@ jobs:
 
           git add test.pdf
 
-          # Avoid failing if no changes
           git commit -m "AUTO: updated PDF (version: $VERSION)" || exit 0
-          git push
+          git push   
+
+
+      # 2. Run LaTeX using prebuilt Docker (fast + no installation)
+      # - name: Compile PDF using Docker
+      #   run: |
+      #     docker run --rm \
+      #       -v ${{ github.workspace }}:/workdir \
+      #       texlive/texlive:latest \
+      #       sh -c "cd /workdir && latexmk -pdf -interaction=nonstopmode -f main.tex"
+
+
+      
