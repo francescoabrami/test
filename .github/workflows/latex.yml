@@ -62,6 +62,8 @@ jobs:
       # 3. Rename output PDF
       - name: Rename PDF
         run: |
+          echo "VERSION = '$VERSION'\n"
+          echo "VERSION = '${VERSION}'\n" 
           if [ -f "main.pdf" ]; then
             mv main.pdf TES${VERSION}.pdf
           else
