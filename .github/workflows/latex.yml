@@ -45,13 +45,14 @@ jobs:
         uses: xu-cheng/latex-action@v4
         with:
           root_file: main.tex
+          
       - name: Upload PDF file
         uses: actions/upload-artifact@v5
         with:
           name: PDF
           path: main.pdf
 
-      # 4. Extract version from \def\version{1.2.3}
+      # 4. Extract version from \def\version{M.m.f}
       - name: Extract version 
         id: get_version
         run: |
@@ -62,7 +63,7 @@ jobs:
       - name: Rename PDF
         run: |
           if [ -f "main.pdf" ]; then
-            mv main.pdf TES$VERSION.pdf
+            mv main.pdf TES${VERSION}.pdf
           else
             echo "main.pdf not found!"
             exit 1
@@ -75,7 +76,7 @@ jobs:
           git config user.name "francescoabrami"
           git config user.email "francesco.abrami03@gmail.com"
 
-          git add TES$VERSION.pdf
+          git add TES${VERSION}.pdf
 
           git commit -m "AUTO: updated PDF (version: $VERSION)" || exit 0
           git verify-commit $( git rev-parse HEAD )
