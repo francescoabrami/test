@@ -52,18 +52,14 @@ jobs:
           name: PDF
           path: main.pdf
 
-      # 4. Extract version from \def\version{M.m.f}
-      - name: Extract version 
+      # 4. Extract version and rename output PDF
+      - name: Extract version and rename PDF
         id: get_version
         run: |
           VERSION=$(grep -oP '\\def\\version\{\K[^\}]+' main.tex || true)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      # 3. Rename output PDF
-      - name: Rename PDF
-        run: |
-          echo "VERSION = '$VERSION'\n"
-          echo "VERSION = '${VERSION}'\n" 
+          echo "version = $VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION = '$version'\n"
+          echo "VERSION = '${version}'\n" 
           if [ -f "main.pdf" ]; then
             mv main.pdf TES${VERSION}.pdf
           else
