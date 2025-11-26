@@ -52,7 +52,7 @@ jobs:
           name: PDF
           path: main.pdf
 
-      # 4. Extract version and rename output PDF
+      # 4. Extract version and rename output PDF 
       - name: Extract version and rename PDF
         id: get_version
         run: |
@@ -60,6 +60,7 @@ jobs:
           echo "version = $VERSION" >> $GITHUB_OUTPUT
           echo "VERSION = '$version'\n"
           echo "VERSION = '${version}'\n" 
+
           if [ -f "main.pdf" ]; then
             mv main.pdf TES${VERSION}.pdf
           else
@@ -67,10 +68,6 @@ jobs:
             exit 1
           fi
 
-      # 5. Commit and push
-
-      - name: Commit PDF to repo
-        run: |
           git config user.name "francescoabrami"
           git config user.email "francesco.abrami03@gmail.com"
 
@@ -96,5 +93,8 @@ jobs:
       #       texlive/texlive:latest \
       #       sh -c "cd /workdir && latexmk -pdf -interaction=nonstopmode -f main.tex"
 
-
       
+     # # 5. Commit and push
+
+      # - name: Commit PDF to repo
+      #   run: |
