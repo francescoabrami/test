@@ -40,6 +40,13 @@ jobs:
         env:
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
 
+      # d. Remove old file versions
+      - name: Delete old PDF versions
+        run: |
+          rm -f TES\ -\ *.pdf || true
+          git rm -f TES\ -\ *.pdf || true
+        continue-on-error: true 
+
       # 2. Run LaTeX using Docker
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v4
