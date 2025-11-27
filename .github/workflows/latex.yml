@@ -43,8 +43,8 @@ jobs:
       # d. Remove old file versions
       - name: Delete old PDF versions
         run: |
-          rm -f TES\ -\ *.pdf || true
-          git rm -f TES\ -\ *.pdf || true
+          rm -f TES*.pdf || true
+          git rm -f TES*.pdf || true
         continue-on-error: true 
 
       # 2. Run LaTeX using Docker
