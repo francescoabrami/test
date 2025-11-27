@@ -62,7 +62,7 @@ jobs:
           echo "VERSION = '${version}'\n" 
 
           if [ -f "main.pdf" ]; then
-            mv main.pdf TES${VERSION}.pdf
+            mv main.pdf TES-${VERSION}.pdf
           else
             echo "main.pdf not found!"
             exit 1
@@ -71,7 +71,7 @@ jobs:
           git config user.name "francescoabrami"
           git config user.email "francesco.abrami03@gmail.com"
 
-          git add TES${VERSION}.pdf
+          git add TES-${VERSION}.pdf
 
           git commit -m "AUTO: updated PDF (version: $VERSION)" || exit 0
           git verify-commit $( git rev-parse HEAD )
